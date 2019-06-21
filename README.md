@@ -19,7 +19,12 @@ npm install
 
 ## Running
 
-Make sure to add a `config.js` file in the `config` folder. See the example there for more details.
+Make sure to add a `config.js` file in the `config` folder. Add the following code:
+
+module.exports = {
+  db: 'mongodb://username:password@url:port/db',
+  db_dev: 'mongodb://hostname:port/db',
+};
 
 Production mode:
 
