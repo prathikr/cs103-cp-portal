@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { withRouter } from 'react-router-dom';
 
 
@@ -12,11 +12,15 @@ class SignUpBox extends React.Component {
       signUpUsername: '',
       signUpEmail: '',
       signUpPassword: '',
+      signUpGender: '',
+      signUpZip: ''
     };
 
     this.onTextboxChangeSignUpEmail = this.onTextboxChangeSignUpEmail.bind(this);
     this.onTextboxChangeSignUpPassword = this.onTextboxChangeSignUpPassword.bind(this);
     this.onTextboxChangeSignUpUsername = this.onTextboxChangeSignUpUsername.bind(this);
+    this.onTextboxChangeSignUpGender = this.onTextboxChangeSignUpGender.bind(this);
+    this.onTextboxChangeSignUpZip = this.onTextboxChangeSignUpZip.bind(this);
 
     this.onSignUp = this.onSignUp.bind(this);
   }
@@ -36,10 +40,20 @@ class SignUpBox extends React.Component {
       signUpUsername: event.target.value
     });
   }
+  onTextboxChangeSignUpGender(event) {
+    this.setState({
+      signUpGender: event.target.value
+    });
+  }
+  onTextboxChangeSignUpZip(event) {
+    this.setState({
+      signUpZip: event.target.value
+    });
+  }
 
   onSignUp() {
     // Grab state
-    const { signUpUsername, signUpEmail, signUpPassword } = this.state;
+    const { signUpUsername, signUpEmail, signUpPassword, signUpZip, signUpGender } = this.state;
 
     this.setState({
       isLoading: true,
@@ -55,17 +69,12 @@ class SignUpBox extends React.Component {
         username: signUpUsername,
         email: signUpEmail,
         password: signUpPassword,
+        gender: signUpGender,
+        zip: signUpZip
       }),
     }).then(res => res.json())
       .then(json => {
         if (json.success) {
-          this.setState({
-            signUpError: json.message,
-            isLoading: false,
-            signUpUsername: '',
-            signUpEmail: '',
-            signUpPassword: '',
-          });
           this.props.history.push("/account");
         } else {
           this.setState({
@@ -83,6 +92,8 @@ class SignUpBox extends React.Component {
       signUpEmail,
       signUpUsername,
       signUpPassword,
+      signUpGender,
+      signUpZip
     } = this.state;
     return (
       <div className="inner-container">
@@ -121,6 +132,26 @@ class SignUpBox extends React.Component {
               placeholder="Password"
               value={signUpPassword}
               onChange={this.onTextboxChangeSignUpPassword} />
+          </div>
+          <div className="input-group">
+            <label htmlFor="gender">Gender</label>
+            <input
+              type="text"
+              name="gender"
+              className="signin-input"
+              placeholder="Gender"
+              value={signUpGender}
+              onChange={this.onTextboxChangeSignUpGender} />
+          </div>
+          <div className="input-group">
+            <label htmlFor="zip">ZIP Code</label>
+            <input
+              type="text"
+              name="zip"
+              className="signin-input"
+              placeholder="ZIP Code"
+              value={signUpZip}
+              onChange={this.onTextboxChangeSignUpZip} />
           </div>
           <button
             type="button"

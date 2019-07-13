@@ -14,6 +14,15 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  zip: {
+    type: String,
+    default: '95014'
+  },
+  gender: {
+    type: String,
+    enum: ['MALE', 'FEMALE'],
+    default: 'FEMALE'
+  },
   isDeleted: {
     type: Boolean,
     default: false

@@ -6,8 +6,8 @@ module.exports = (app) => {
   mongoose.set('useFindAndModify', false);
 
   app.post('/api/account/signup', (req, res, next) => {
-    const { username, password } = req.body;
-    let { email } = req.body;
+    const { username, password, zip } = req.body;
+    let { email, gender } = req.body;
     if (!username) {
       return res.send({
         success: false,
@@ -26,8 +26,28 @@ module.exports = (app) => {
         message: "Error: Password cannot be empty."
       });
     }
+    if (!gender) {
+      return res.send({
+        success: false,
+        message: "Error: Gender cannot be empty."
+      });
+    }
+    if (!zip) {
+      return res.send({
+        success: false,
+        message: "Error: ZIP Code cannot be empty."
+      });
+    }
 
     email = email.toLowerCase();
+    gender = gender.toUpperCase();
+
+    if (gender != 'MALE' && gender != 'FEMALE' && gender != 'OTHER') {
+      return res.send({
+        success: false,
+        message: "Error: Gender must be male, female, or other."
+      });
+    }
 
     // Steps:
     // 1. Verify email doesn't already exist
@@ -52,11 +72,13 @@ module.exports = (app) => {
         newUser.email = email;
         newUser.username = username;
         newUser.password = newUser.generateHash(password);
+        newUser.zip = zip;
+        newUser.gender = gender;
         newUser.save((err, user) => {
           if (err) {
             return res.send({
               success: false,
-              message: "Error: Email already in use."
+              message: "Error: Server error."
             });
           } else {
             return res.send({
