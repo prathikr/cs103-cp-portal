@@ -9,7 +9,7 @@ module.exports = (app) => {
   });
 
   app.post('/api/settings/password', (req, res, next) => {
-    // code to change password
+    // code to change user password
     // use bcrypt to encrypt password (see /api/account/signup on how password encryption works)
   });
 
