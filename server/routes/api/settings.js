@@ -5,6 +5,14 @@ module.exports = (app) => {
   mongoose.set('useFindAndModify', false);
 
   app.post('/api/settings/username', (req, res, next) => {
+    const {old_username, new_username} = req.body;
+    let {new_username, username} = req.body;
+    if(!old_username){
+      return res.send({
+        success: false,
+        message: "Error: Username cannot be empty."
+      });
+    }
     // code to change username
   });
 
