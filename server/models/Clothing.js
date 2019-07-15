@@ -25,6 +25,9 @@ const ClothingSchema = new mongoose.Schema({
   requests: {
     type: [Schema.ObjectId],
     ref: 'Request',
+  },
+  img: {
+    type: [String],
   }
 });
 
